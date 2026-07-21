@@ -1,0 +1,183 @@
+﻿@model universitymanagementsystem.Models.Student
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    .sms-page {
+        --sms-border: #edf0f3;
+        --sms-muted: #8a94a6;
+        --sms-ink: #1f2430;
+    }
+
+        .sms-page .card {
+            border: 1px solid var(--sms-border);
+            border-radius: 0.9rem;
+        }
+
+        .sms-page .form-control,
+        .sms-page .form-select {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            padding: 0.55rem 0.8rem;
+        }
+
+            .sms-page .form-control:focus,
+            .sms-page .form-select:focus {
+                box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.12);
+                border-color: #b6c8f2;
+            }
+
+        .sms-page .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sms-ink);
+            margin-bottom: 0.35rem;
+        }
+
+        .sms-page .btn {
+            border-radius: 0.6rem;
+            font-weight: 500;
+        }
+
+        .sms-page .text-danger {
+            font-size: 0.8rem;
+        }
+
+        .sms-page .back-link {
+            color: var(--sms-muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.9rem;
+        }
+
+            .sms-page .back-link:hover {
+                color: var(--sms-ink);
+            }
+
+        .sms-page .section-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--sms-muted);
+            font-weight: 600;
+        }
+</style>
+
+<div class="sms-page">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <a asp-action="Index" class="back-link mb-2">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+        <h1 class="h4 fw-semibold mt-2 mb-1" style="color: var(--sms-ink);">
+            Add Student
+        </h1>
+        <div class="text-muted small">Create a new student record</div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
+            <div class="card">
+                <div class="card-body p-4 p-md-5">
+
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 py-2 px-3 small mb-4" style="background:#fdeeee; color:#b3261e; display: none;"></div>
+
+                        <div class="section-label mb-3">Basic information</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="RegistrationNo" class="form-label"></label>
+                                <input asp-for="RegistrationNo" class="form-control" placeholder="e.g. 2024-CS-101" />
+                                <span asp-validation-for="RegistrationNo" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="DepartmentId" class="form-label"></label>
+                                <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.DepartmentId">
+                                    <option value="">-- Select Department --</option>
+                                </select>
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label"></label>
+                                <input asp-for="FirstName" class="form-control" placeholder="First name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label"></label>
+                                <input asp-for="LastName" class="form-control" placeholder="Last name" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Gender" class="form-label"></label>
+                                <select asp-for="Gender" class="form-select">
+                                    <option value="">-- Select Gender --</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="DateOfBirth" class="form-label"></label>
+                                <input asp-for="DateOfBirth" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="section-label mb-3">Contact details</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Phone" class="form-label"></label>
+                                <input asp-for="Phone" class="form-control" placeholder="03xx-xxxxxxx" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="Address" class="form-label"></label>
+                                <input asp-for="Address" class="form-control" placeholder="Street, city" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="section-label mb-3">Enrollment</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="Semester" class="form-label"></label>
+                                <input asp-for="Semester" class="form-control" placeholder="e.g. 3" />
+                                <span asp-validation-for="Semester" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" style="border-color: var(--sms-border);" />
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-dark px-4 d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-check-lg"></i> Create Student
+                            </button>
+                            <a asp-action="Index" class="btn btn-light border px-4">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
