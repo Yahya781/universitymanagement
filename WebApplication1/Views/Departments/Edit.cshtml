@@ -1,34 +1,108 @@
 ﻿@model universitymanagementsystem.Models.Department
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Department";
 }
 
-<h1>Edit</h1>
+<div class="content-header">
+    <div class="container-fluid">
 
-<h4>Department</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DepartmentId" />
-            <div class="form-group">
-                <label asp-for="DepartmentName" class="control-label"></label>
-                <input asp-for="DepartmentName" class="form-control" />
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+        <div class="row mb-3">
+
+            <div class="col-sm-6">
+                <h2>
+                    <i class="fas fa-edit"></i>
+                    Edit Department
+                </h2>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="col-sm-6 text-right">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back
+                </a>
             </div>
-        </form>
+
+        </div>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<section class="content">
+
+    <div class="container-fluid">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-8">
+
+                <div class="card card-warning">
+
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Update Department Information
+                        </h3>
+                    </div>
+
+                    <form asp-action="Edit">
+
+                        <input type="hidden" asp-for="DepartmentId" />
+
+                        <div class="card-body">
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="alert alert-danger">
+                            </div>
+
+                            <div class="form-group">
+
+                                <label asp-for="DepartmentName"></label>
+
+                                <input asp-for="DepartmentName"
+                                       class="form-control"
+                                       placeholder="Enter Department Name" />
+
+                                <span asp-validation-for="DepartmentName"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+
+                                <i class="fas fa-save"></i>
+                                Update Department
+
+                            </button>
+
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
