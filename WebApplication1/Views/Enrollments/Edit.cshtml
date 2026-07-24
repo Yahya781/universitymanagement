@@ -1,0 +1,199 @@
+﻿@model universitymanagementsystem.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    .sms-page {
+        --sms-border: #edf0f3;
+        --sms-muted: #8a94a6;
+        --sms-ink: #1f2430;
+    }
+
+        .sms-page .card {
+            border: 1px solid var(--sms-border);
+            border-radius: 0.9rem;
+        }
+
+        .sms-page .form-control,
+        .sms-page .form-select {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            padding: 0.55rem 0.8rem;
+        }
+
+            .sms-page .form-control:focus,
+            .sms-page .form-select:focus {
+                box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.12);
+                border-color: #b6c8f2;
+            }
+
+        .sms-page .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sms-ink);
+            margin-bottom: 0.35rem;
+        }
+
+        .sms-page .btn {
+            border-radius: 0.6rem;
+            font-weight: 500;
+        }
+
+        .sms-page .text-danger {
+            font-size: 0.8rem;
+        }
+
+        .sms-page .back-link {
+            color: var(--sms-muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.9rem;
+        }
+
+            .sms-page .back-link:hover {
+                color: var(--sms-ink);
+            }
+
+        .sms-page .section-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--sms-muted);
+            font-weight: 600;
+        }
+
+        /* Searchable dropdown (Choices.js) styling to match the theme */
+        .sms-page .choices {
+            margin-bottom: 0;
+        }
+
+        .sms-page .choices__inner {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            min-height: 46px;
+            padding: 0.5rem 0.8rem;
+            background-color: #fff;
+        }
+
+        .sms-page .choices__list--dropdown {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            overflow: hidden;
+        }
+
+            .sms-page .choices__list--dropdown .choices__item--selectable.is-highlighted {
+                background-color: #f7f9fc;
+            }
+
+        .sms-page .choices.is-focused .choices__inner {
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.12);
+            border-color: #b6c8f2;
+        }
+</style>
+
+<div class="sms-page">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <a asp-action="Index" class="back-link mb-2">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+        <h1 class="h4 fw-semibold mt-2 mb-1" style="color: var(--sms-ink);">
+            Edit Enrollment
+        </h1>
+        <div class="text-muted small">Update this enrollment's details</div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
+            <div class="card">
+                <div class="card-body p-4 p-md-5">
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 py-2 px-3 small mb-4" style="background:#fdeeee; color:#b3261e; display: none;"></div>
+                        <input type="hidden" asp-for="EnrollmentId" />
+
+                        <div class="section-label mb-3">Enrollment details</div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-12">
+                                <label asp-for="StudentId" class="form-label"></label>
+                                <select asp-for="StudentId" class="form-select" asp-items="ViewBag.StudentId">
+                                    <option value="">-- Select Student --</option>
+                                </select>
+                                <span asp-validation-for="StudentId" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="CourseId" class="form-label"></label>
+                                <select asp-for="CourseId" class="form-select" asp-items="ViewBag.CourseId">
+                                    <option value="">-- Select Course --</option>
+                                </select>
+                                <span asp-validation-for="CourseId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="section-label mb-3">Term</div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="Semester" class="form-label"></label>
+                                <input asp-for="Semester" class="form-control" placeholder="e.g. 3" />
+                                <span asp-validation-for="Semester" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Year" class="form-label"></label>
+                                <input asp-for="Year" class="form-control" placeholder="e.g. 2026" />
+                                <span asp-validation-for="Year" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" style="border-color: var(--sms-border);" />
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-dark px-4 d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-check-lg"></i> Save Changes
+                            </button>
+                            <a asp-action="Index" class="btn btn-light border px-4">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Choices('#StudentId', {
+                searchEnabled: true,
+                shouldSort: false,
+                itemSelectText: '',
+                placeholder: true,
+                placeholderValue: '-- Select Student --',
+                searchPlaceholderValue: 'Type to search students...'
+            });
+
+            new Choices('#CourseId', {
+                searchEnabled: true,
+                shouldSort: false,
+                itemSelectText: '',
+                placeholder: true,
+                placeholderValue: '-- Select Course --',
+                searchPlaceholderValue: 'Type to search courses...'
+            });
+        });
+    </script>
+}

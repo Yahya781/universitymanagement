@@ -1,0 +1,152 @@
+﻿@model universitymanagementsystem.Models.Course
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    .sms-page {
+        --sms-border: #edf0f3;
+        --sms-muted: #8a94a6;
+        --sms-ink: #1f2430;
+    }
+
+        .sms-page .card {
+            border: 1px solid var(--sms-border);
+            border-radius: 0.9rem;
+        }
+
+        .sms-page .form-control,
+        .sms-page .form-select {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            padding: 0.55rem 0.8rem;
+        }
+
+            .sms-page .form-control:focus,
+            .sms-page .form-select:focus {
+                box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.12);
+                border-color: #b6c8f2;
+            }
+
+        .sms-page .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sms-ink);
+            margin-bottom: 0.35rem;
+        }
+
+        .sms-page .btn {
+            border-radius: 0.6rem;
+            font-weight: 500;
+        }
+
+        .sms-page .text-danger {
+            font-size: 0.8rem;
+        }
+
+        .sms-page .back-link {
+            color: var(--sms-muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.9rem;
+        }
+
+            .sms-page .back-link:hover {
+                color: var(--sms-ink);
+            }
+
+        .sms-page .section-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--sms-muted);
+            font-weight: 600;
+        }
+</style>
+
+<div class="sms-page">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <a asp-action="Index" class="back-link mb-2">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+        <h1 class="h4 fw-semibold mt-2 mb-1" style="color: var(--sms-ink);">
+            Edit Course
+        </h1>
+        <div class="text-muted small">Update this course's details</div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
+            <div class="card">
+                <div class="card-body p-4 p-md-5">
+
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 py-2 px-3 small mb-4" style="background:#fdeeee; color:#b3261e; display: none;"></div>
+                        <input type="hidden" asp-for="CourseId" />
+
+                        <div class="section-label mb-3">Course details</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="CourseCode" class="form-label"></label>
+                                <input asp-for="CourseCode" class="form-control" placeholder="e.g. CT-365" />
+                                <span asp-validation-for="CourseCode" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CreditHours" class="form-label"></label>
+                                <input asp-for="CreditHours" class="form-control" placeholder="e.g. 3" />
+                                <span asp-validation-for="CreditHours" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="CourseName" class="form-label"></label>
+                                <input asp-for="CourseName" class="form-control" placeholder="e.g. Software Engineering" />
+                                <span asp-validation-for="CourseName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="section-label mb-3">Assignment</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label asp-for="DepartmentId" class="form-label"></label>
+                                <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.DepartmentId">
+                                    <option value="">-- Select Department --</option>
+                                </select>
+                                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="TeacherId" class="form-label"></label>
+                                <select asp-for="TeacherId" class="form-select" asp-items="ViewBag.TeacherId">
+                                    <option value="">-- Select Teacher --</option>
+                                </select>
+                                <span asp-validation-for="TeacherId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" style="border-color: var(--sms-border);" />
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-dark px-4 d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-check-lg"></i> Save Changes
+                            </button>
+                            <a asp-action="Index" class="btn btn-light border px-4">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

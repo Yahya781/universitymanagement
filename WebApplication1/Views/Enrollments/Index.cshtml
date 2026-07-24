@@ -1,0 +1,351 @@
+﻿@model IEnumerable<universitymanagementsystem.Models.Enrollment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .sms-page {
+        --sms-border: #edf0f3;
+        --sms-muted: #8a94a6;
+        --sms-ink: #1f2430;
+    }
+
+        .sms-page .card {
+            border: 1px solid var(--sms-border);
+            border-radius: 0.9rem;
+        }
+
+        .sms-page .form-control,
+        .sms-page .form-select {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+        }
+
+            .sms-page .form-control:focus,
+            .sms-page .form-select:focus {
+                box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.12);
+                border-color: #b6c8f2;
+            }
+
+        .sms-page .btn {
+            border-radius: 0.6rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .sms-page .btn-icon {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.55rem;
+            padding: 0;
+        }
+
+        .sms-page .table thead th {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--sms-muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--sms-border);
+            background: #fafbfc;
+        }
+
+        .sms-page .table td {
+            border-bottom: 1px solid var(--sms-border);
+            color: var(--sms-ink);
+            vertical-align: middle;
+        }
+
+        .sms-page .table > :not(caption) > * > * {
+            box-shadow: none;
+        }
+
+        .sms-page .table-hover tbody tr:hover {
+            background-color: #f7f9fc;
+        }
+
+        .sms-page .badge-soft {
+            font-weight: 500;
+            font-size: 0.72rem;
+            padding: 0.4em 0.7em;
+            border-radius: 0.5rem;
+        }
+
+        .sms-page .avatar-chip {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #eef1f6;
+            color: #55617a;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sms-page .table-scroll {
+            max-height: 620px;
+        }
+
+        .sms-page .stat-pill {
+            font-size: 0.75rem;
+            color: var(--sms-muted);
+            background: #f5f6f8;
+            border-radius: 2rem;
+            padding: 0.35rem 0.9rem;
+        }
+
+        .sms-page .code-chip {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.78rem;
+            background: #f5f6f8;
+            color: #4a5266;
+            padding: 0.25em 0.6em;
+            border-radius: 0.4rem;
+        }
+
+        /* Searchable dropdown (Choices.js) styling to match the theme */
+        .sms-page .choices {
+            margin-bottom: 0;
+        }
+
+        .sms-page .choices__inner {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            min-height: 44px;
+            padding: 0.45rem 0.8rem;
+            background-color: #fff;
+        }
+
+        .sms-page .choices__list--dropdown {
+            border-radius: 0.6rem;
+            border-color: var(--sms-border);
+            overflow: hidden;
+            z-index: 20;
+        }
+
+            .sms-page .choices__list--dropdown .choices__item--selectable.is-highlighted {
+                background-color: #f7f9fc;
+            }
+
+        .sms-page .choices.is-focused .choices__inner {
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.12);
+            border-color: #b6c8f2;
+        }
+</style>
+
+<div class="sms-page">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success d-flex align-items-center border-0 rounded-3 py-2 px-3 mb-4" role="alert" style="background:#eaf7ee; color:#1e7a3d;">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <div class="flex-grow-1 small">@TempData["Success"]</div>
+            <button type="button" class="btn-close small" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+            <h1 class="h4 fw-semibold mb-1" style="color: var(--sms-ink);">Enrollment Management</h1>
+            <div class="text-muted small">Manage student course enrollments by semester and year</div>
+        </div>
+
+        <a asp-action="Create" class="btn btn-dark d-inline-flex align-items-center gap-2 px-3 py-2">
+            <i class="bi bi-plus-lg"></i> Create New
+        </a>
+    </div>
+
+    <!-- Filter -->
+    <div class="card mb-4">
+        <div class="card-body p-3 p-md-4">
+            <form asp-action="Index" method="get">
+                <div class="d-flex flex-wrap gap-4">
+
+                    <div style="min-width: 200px;">
+                        <select id="studentFilter"
+                                name="studentId"
+                                class="form-select"
+                                asp-items="ViewBag.Students">
+
+                            <option value="">-- All Students --</option>
+
+                        </select>
+                    </div>
+
+                    <div style="min-width: 200px;">
+                        <select id="courseFilter"
+                                name="courseId"
+                                class="form-select"
+                                asp-items="ViewBag.Courses">
+
+                            <option value="">-- All Courses --</option>
+
+                        </select>
+                    </div>
+
+                    <div style="min-width: 140px;">
+                        <select id="yearFilter"
+                                name="year"
+                                class="form-select"
+                                asp-items="ViewBag.Years">
+
+                            <option value="">-- All Years --</option>
+
+                        </select>
+                    </div>
+
+                    <div style="min-width: 160px;">
+                        <select id="semesterFilter"
+                                name="semester"
+                                class="form-select"
+                                asp-items="ViewBag.Semesters">
+
+                            <option value="">-- All Semesters --</option>
+
+                        </select>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-dark px-3">
+                            Filter
+                        </button>
+                        <a asp-action="Index" class="btn btn-light border px-3">
+                            Clear
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+        <div class="card-header bg-white border-0 pt-3 pb-2 d-flex justify-content-between align-items-center">
+            <span class="fw-semibold" style="color: var(--sms-ink);">All Enrollments</span>
+            <span class="stat-pill">@Model.Count() total</span>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive table-scroll">
+                <table class="table table-hover mb-0">
+                    <thead style="position: sticky; top: 0; z-index: 1;">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Course)</th>
+                            <th>@Html.DisplayNameFor(model => model.Student)</th>
+                            <th>@Html.DisplayNameFor(model => model.Semester)</th>
+                            <th>@Html.DisplayNameFor(model => model.Year)</th>
+                            <th class="text-end pe-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="avatar-chip">
+                                            @{
+                                                var initials = ((item.Student?.FirstName?.Length > 0 ? item.Student.FirstName[0].ToString() : "") +
+                                                (item.Student?.LastName?.Length > 0 ? item.Student.LastName[0].ToString() : "")).ToUpper();
+                                            }
+                                            @initials
+                                        </span>
+                                        <div>
+                                            <div class="fw-medium" style="line-height:1.1;">
+                                                @item.Student.FirstName @item.Student.LastName
+                                            </div>
+                                            <div class="small text-muted">@item.Student.RegistrationNo</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <span class="code-chip">@item.Course.CourseCode</span>
+                                        <div class="small text-muted mt-1">@item.Course.CourseName</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge-soft" style="background:#eaf7f1; color:#1c8a5f;">
+                                        Sem @Html.DisplayFor(modelItem => item.Semester)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="small">@Html.DisplayFor(modelItem => item.Year)</span>
+                                </td>
+                                <td class="text-end pe-3">
+                                    <div class="d-inline-flex gap-1">
+                                        <a asp-action="Edit" asp-route-id="@item.EnrollmentId"
+                                           class="btn btn-icon btn-outline-warning" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.EnrollmentId"
+                                           class="btn btn-icon btn-outline-primary" title="Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.EnrollmentId"
+                                           class="btn btn-icon btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Choices('#studentFilter', {
+                searchEnabled: true,
+                shouldSort: false,
+                itemSelectText: '',
+                placeholder: true,
+                placeholderValue: '-- All Students --',
+                searchPlaceholderValue: 'Type to search students...'
+            });
+
+            new Choices('#courseFilter', {
+                searchEnabled: true,
+                shouldSort: false,
+                itemSelectText: '',
+                placeholder: true,
+                placeholderValue: '-- All Courses --',
+                searchPlaceholderValue: 'Type to search courses...'
+            });
+
+            new Choices('#yearFilter', {
+                searchEnabled: true,
+                shouldSort: false,
+                itemSelectText: '',
+                placeholder: true,
+                placeholderValue: '-- All Years --',
+                searchPlaceholderValue: 'Type to search years...'
+            });
+
+            new Choices('#semesterFilter', {
+                searchEnabled: true,
+                shouldSort: false,
+                itemSelectText: '',
+                placeholder: true,
+                placeholderValue: '-- All Semesters --',
+                searchPlaceholderValue: 'Type to search semesters...'
+            });
+        });
+    </script>
+}

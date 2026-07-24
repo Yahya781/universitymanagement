@@ -13,6 +13,9 @@
 
     <!-- AdminLTE -->
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -50,87 +53,67 @@
             </a>
 
             <div class="sidebar">
-
                 <nav class="mt-2">
-
                     <ul class="nav nav-pills nav-sidebar flex-column"
                         data-widget="treeview"
                         role="menu">
-
                         <li class="nav-item">
                             <a asp-controller="Home"
                                asp-action="Index"
                                class="nav-link">
-
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-
                                 <p>Dashboard</p>
-
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a asp-controller="Students"
                                asp-action="Index"
                                class="nav-link">
-
                                 <i class="nav-icon fas fa-user-graduate"></i>
-
                                 <p>Students</p>
-
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a asp-controller="Teachers"
                                asp-action="Index"
                                class="nav-link">
-
                                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
-
                                 <p>Teachers</p>
-
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a asp-controller="departments"
                                asp-action="Index"
                                class="nav-link">
-
                                 <i class="nav-icon fas fa-building"></i>
-
                                 <p>Departments</p>
-
                             </a>
                         </li>
-
                         <li class="nav-item">
-                            <a href="#"
+                            <a asp-controller="Courses"
+                               asp-action="Index"
                                class="nav-link">
-
                                 <i class="nav-icon fas fa-book"></i>
-
                                 <p>Courses</p>
-
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a asp-controller="Enrollments"
+                               asp-action="Index"
+                               class="nav-link">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Enrollments</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="#"
                                class="nav-link">
-
                                 <i class="nav-icon fas fa-money-bill"></i>
-
                                 <p>Fees</p>
-
                             </a>
                         </li>
-
                     </ul>
-
                 </nav>
-
             </div>
 
         </aside>
