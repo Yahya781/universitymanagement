@@ -26,7 +26,7 @@
             <div class="small-box bg-primary">
 
                 <div class="inner">
-                    <h3>1,250</h3>
+                    <h3>@ViewBag.TotalStudents</h3>
                     <p>Total Students</p>
                 </div>
 
@@ -43,7 +43,7 @@
             <div class="small-box bg-success">
 
                 <div class="inner">
-                    <h3>85</h3>
+                    <h3>@ViewBag.TotalTeachers</h3>
                     <p>Total Teachers</p>
                 </div>
 
@@ -60,7 +60,7 @@
             <div class="small-box bg-warning">
 
                 <div class="inner">
-                    <h3>12</h3>
+                    <h3>@ViewBag.TotalDepartments</h3>
                     <p>Departments</p>
                 </div>
 
@@ -77,7 +77,7 @@
             <div class="small-box bg-danger">
 
                 <div class="inner">
-                    <h3>520</h3>
+                    <h3>@ViewBag.TotalCourses</h3>
                     <p>Courses</p>
                 </div>
 
@@ -128,40 +128,26 @@
 
                         <tbody>
 
-                            <tr>
-                                <td>1001</td>
-                                <td>Ali Khan</td>
-                                <td>Computer Science</td>
-                                <td>5</td>
-                            </tr>
+                            @foreach (var student in ViewBag.RecentStudents)
+                            {
+                                <tr>
 
-                            <tr>
-                                <td>1002</td>
-                                <td>Ahmed Raza</td>
-                                <td>Software Engineering</td>
-                                <td>7</td>
-                            </tr>
+                                    <td>@student.RegistrationNo</td>
 
-                            <tr>
-                                <td>1003</td>
-                                <td>Fatima Noor</td>
-                                <td>Artificial Intelligence</td>
-                                <td>3</td>
-                            </tr>
+                                    <td>
+                                        @student.FirstName @student.LastName
+                                    </td>
 
-                            <tr>
-                                <td>1004</td>
-                                <td>Zain Ali</td>
-                                <td>Computer Science</td>
-                                <td>6</td>
-                            </tr>
+                                    <td>
+                                        @student.Department.DepartmentName
+                                    </td>
 
-                            <tr>
-                                <td>1005</td>
-                                <td>Hassan Ahmed</td>
-                                <td>Business Administration</td>
-                                <td>2</td>
-                            </tr>
+                                    <td>
+                                        @student.Semester
+                                    </td>
+
+                                </tr>
+                            }
 
                         </tbody>
 
@@ -198,7 +184,8 @@
 
                     </a>
 
-                    <a href="#"
+                    <a asp-controller="Teachers"
+                       asp-action="Create"
                        class="btn btn-success btn-block mb-2">
 
                         <i class="fas fa-chalkboard-teacher"></i>
@@ -206,7 +193,8 @@
 
                     </a>
 
-                    <a href="#"
+                    <a asp-controller="Departments"
+                       asp-action="Create"
                        class="btn btn-warning btn-block mb-2">
 
                         <i class="fas fa-building"></i>
