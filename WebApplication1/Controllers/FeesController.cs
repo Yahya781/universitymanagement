@@ -16,16 +16,15 @@ namespace universitymanagementsystem.Controllers
         }
 
         // GET: Fees
-
         public async Task<IActionResult> Index()
         {
             var fees = _context.Fees
                 .Include(f => f.Student);
 
-            return View(await fees.ToListAsync()); 
+            return View(await fees.ToListAsync());
         }
 
-        //Get:Fees/Create
+        // GET: Fees/Create
         public IActionResult Create()
         {
             ViewData["StudentId"] = new SelectList
@@ -39,6 +38,8 @@ namespace universitymanagementsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Fee fee)
         {
+            ModelState.Remove("Student");
+
             if (ModelState.IsValid)
             {
                 _context.Add(fee);
@@ -56,7 +57,7 @@ namespace universitymanagementsystem.Controllers
             return View(fee);
         }
 
-       
+        // GET: Fees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -105,6 +106,8 @@ namespace universitymanagementsystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Fee fee)
         {
+            ModelState.Remove("Student");
+
             if (id != fee.FeeId)
             {
                 return NotFound();

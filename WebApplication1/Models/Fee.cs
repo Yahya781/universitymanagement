@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace universitymanagementsystem.Models
 {
@@ -8,6 +9,7 @@ namespace universitymanagementsystem.Models
     {
         [Key]
         public int FeeId { get; set; }
+
 
         public int StudentId { get; set; }
 
