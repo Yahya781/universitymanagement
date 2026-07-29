@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using universitymanagementsystem.Data;
 using universitymanagementsystem.Models;
 
-namespace universitymanagementsystem
+namespace universitymanagementsystem.Controllers
 {
     public class EnrollmentsController : Controller
     {
@@ -146,26 +146,64 @@ namespace universitymanagementsystem
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EnrollmentId,StudentId,CourseId,Semester,Year")] Enrollment enrollment)
+        public async Task<IActionResult> Create([Bind("EnrollmentId,StudentId,CourseId,Semester,Year,IsRetake")] Enrollment enrollment)
         {
             ModelState.Remove("Student");
             ModelState.Remove("Course");
-            if (_context.Enrollments.Any(e =>
-    e.StudentId == enrollment.StudentId &&
-    e.CourseId == enrollment.CourseId))
-            {
-                ModelState.AddModelError("", "This student is already enrolled in this course.");
-            }
 
             if (ModelState.IsValid)
             {
-                _context.Add(enrollment);
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "Enrollment created successfully.";
-                return RedirectToAction(nameof(Index));
+                // Check if the student is already enrolled in the SAME course,
+                // SAME semester and SAME year.
+                bool duplicateEnrollment = _context.Enrollments.Any(e =>
+                    e.StudentId == enrollment.StudentId &&
+                    e.CourseId == enrollment.CourseId &&
+                    e.Semester == enrollment.Semester &&
+                    e.Year == enrollment.Year);
+
+                if (duplicateEnrollment)
+                {
+                    ModelState.AddModelError("", "This student is already enrolled in this course for the selected semester and year.");
+                }
+                else
+                {
+                    // Check if the student has taken this course before.
+                    bool previousEnrollment = _context.Enrollments.Any(e =>
+                        e.StudentId == enrollment.StudentId &&
+                        e.CourseId == enrollment.CourseId);
+
+                    enrollment.IsRetake = previousEnrollment;
+
+                    _context.Enrollments.Add(enrollment);
+                    await _context.SaveChangesAsync();
+
+                    TempData["Success"] = previousEnrollment
+                        ? "Student enrolled successfully as a retake."
+                        : "Student enrolled successfully.";
+
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "Address", enrollment.StudentId);
+            ViewData["CourseId"] = new SelectList(
+    _context.Courses.Select(c => new
+    {
+        c.CourseId,
+        Course = c.CourseCode + " - " + c.CourseName
+    }),
+    "CourseId",
+    "Course",
+    enrollment.CourseId);
+
+            ViewData["StudentId"] = new SelectList(
+                _context.Students.Select(s => new
+                {
+                    s.StudentId,
+                    Student = s.RegistrationNo + " - " + s.FirstName + " " + s.LastName
+                }),
+                "StudentId",
+                "Student",
+                enrollment.StudentId);
+
             return View(enrollment);
         }
 

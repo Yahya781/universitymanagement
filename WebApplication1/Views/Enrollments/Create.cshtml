@@ -114,7 +114,10 @@
                 <div class="card-body p-4 p-md-5">
 
                     <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 py-2 px-3 small mb-4" style="background:#fdeeee; color:#b3261e; display: none;"></div>
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger border-0 rounded-3 py-2 px-3 small mb-4"
+                             style="background:#fdeeee; color:#b3261e;">
+                        </div>
 
                         <div class="section-label mb-3">Enrollment details</div>
                         <div class="row g-4 mb-4">

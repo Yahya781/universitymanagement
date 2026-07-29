@@ -15,6 +15,8 @@ public partial class Enrollment
 
     public int? Year { get; set; }
 
+    public bool IsRetake { get; set; }
+
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public virtual Course Course { get; set; } = null!;

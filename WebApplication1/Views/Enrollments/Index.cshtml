@@ -242,6 +242,7 @@
                             <th>@Html.DisplayNameFor(model => model.Student)</th>
                             <th>@Html.DisplayNameFor(model => model.Semester)</th>
                             <th>@Html.DisplayNameFor(model => model.Year)</th>
+                            <th>Enrollment Type</th>
                             <th class="text-end pe-3">Actions</th>
                         </tr>
                     </thead>
@@ -279,6 +280,16 @@
                                 </td>
                                 <td>
                                     <span class="small">@Html.DisplayFor(modelItem => item.Year)</span>
+                                </td>
+                                <td>
+                                    @if (item.IsRetake)
+                                    {
+                                        <span class="badge bg-warning text-dark">Retake</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Regular</span>
+                                    }
                                 </td>
                                 <td class="text-end pe-3">
                                     <div class="d-inline-flex gap-1">

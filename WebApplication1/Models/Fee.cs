@@ -1,29 +1,14 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
-namespace universitymanagementsystem.Models
+using System.Collections.Generic;
+namespace universitymanagementsystem.Models;
+public partial class Fee
 {
-    public class Fee
-    {
-        [Key]
-        public int FeeId { get; set; }
-
-
-        public int StudentId { get; set; }
-
-        public decimal Amount { get; set; }
-
-        public DateTime DueDate { get; set; }
-
-        public DateTime? PaidDate { get; set; }
-
-        public string Status { get; set; }
-
-        public string? Remarks { get; set; }
-
-        [ForeignKey("StudentId")]
-        public virtual Student Student { get; set; }
-    }
+    public int FeeId { get; set; }
+    public int StudentId { get; set; }
+    public decimal Amount { get; set; }
+    public DateOnly DueDate { get; set; }
+    public DateOnly? PaidDate { get; set; }
+    public string Status { get; set; } = null!;
+    public string? Remarks { get; set; }
+    public virtual Student Student { get; set; } = null!;
 }

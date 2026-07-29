@@ -24,6 +24,8 @@ public partial class UniversityManagementSystemContext : DbContext
 
     public virtual DbSet<Enrollment> Enrollments { get; set; }
 
+    public virtual DbSet<Fee> Fees { get; set; }
+
     public virtual DbSet<Grade> Grades { get; set; }
 
     public virtual DbSet<Student> Students { get; set; }
@@ -116,6 +118,26 @@ public partial class UniversityManagementSystemContext : DbContext
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Enrollmen__Stude__3A81B327");
+        });
+
+        modelBuilder.Entity<Fee>(entity =>
+        {
+            entity.HasKey(e => e.FeeId).HasName("PK__Fees__B387B20942EAB3F0");
+
+            entity.Property(e => e.FeeId).HasColumnName("FeeID");
+            entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Remarks)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Fees)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Fees_Students");
         });
 
         modelBuilder.Entity<Grade>(entity =>
