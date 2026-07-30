@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using universitymanagementsystem.Data;
 using universitymanagementsystem.Models;
-
 namespace universitymanagementsystem.Controllers
 {
     public class FeesController : Controller
