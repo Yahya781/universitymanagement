@@ -20,9 +20,18 @@ namespace universitymanagementsystem.Controllers
         }
 
         // GET: Departments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Departments.ToListAsync());
+            var departments = _context.Departments.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                departments = departments.Where(d => d.DepartmentName.Contains(searchString));
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            return View(await departments.ToListAsync());
         }
 
         // GET: Departments/Details/5

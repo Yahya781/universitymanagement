@@ -15,10 +15,36 @@ namespace universitymanagementsystem.Controllers
         }
 
         // GET: Fees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? studentId, string status)
         {
             var fees = _context.Fees
-                .Include(f => f.Student);
+                .Include(f => f.Student)
+                .AsQueryable();
+
+            if (studentId.HasValue)
+            {
+                fees = fees.Where(f => f.StudentId == studentId.Value);
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                fees = fees.Where(f => f.Status == status);
+            }
+
+            ViewBag.Students = new SelectList(
+                _context.Students.Select(s => new
+                {
+                    s.StudentId,
+                    Display = s.RegistrationNo + " - " + s.FirstName + " " + s.LastName
+                }),
+                "StudentId",
+                "Display",
+                studentId);
+
+            var statuses = await _context.Fees.Select(f => f.Status).Distinct().ToListAsync();
+            ViewBag.Statuses = new SelectList(statuses, status);
+
+            ViewData["CurrentStatus"] = status;
 
             return View(await fees.ToListAsync());
         }

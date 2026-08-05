@@ -25,6 +25,29 @@
 
         </div>
 
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <select name="studentId" class="form-control" asp-items="ViewBag.Students">
+                                <option value="">-- All Students --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <select name="status" class="form-control" asp-items="ViewBag.Statuses">
+                                <option value="">-- All Statuses --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-secondary">Filter</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 </div>
 
